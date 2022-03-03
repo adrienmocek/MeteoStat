@@ -4,7 +4,8 @@ from datetime import date, timedelta, datetime
 from PIL import Image, UnidentifiedImageError
 import pandas as pd
 import matplotlib.image as mpimg
-
+import numpy as np
+import h5py
 
 def iteration_15min(start, finish):
     ## Generateur de (an, mois, jour, heure, minute)
@@ -27,7 +28,7 @@ def scrapping_images (start, finish) :
         ## url scrapping :
         url = (f"https://static.infoclimat.net/cartes/compo/{an}/{mois}/{jour}"
             f"/color_{jour}{heure}{minute}.jpg")
-        date_save = f'{an}_{mois}_{jour}_{heure}h{minute}'
+        date_save = f'{an}_{mois}_{jour}_{heure}{minute}'
 
         try :
             open_save_data(url, date_save)
