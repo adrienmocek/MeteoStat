@@ -79,6 +79,9 @@ def retirer_txt (img):
 def colors2grays (img):
     """Transforme les vraies couleurs en niveau de gris"""
     gray_image_3c = copy(img)
+    if np.max(img) <= 1. :
+        gray_image_3c = copy(img)*255
+
     gray_image_1c = copy(gray_image_3c[:,:,0])
     gray_image_1c[:,:] = 0
 
@@ -100,8 +103,10 @@ def crop_image (img, zone) :
         limite = [30,450,100,750]    ## Limites : [H_min, H_max, L_min, L_max]
     elif zone == 'IDF':
         limite = [190,265,400,510]    ## Limites : [H_min, H_max, L_min, L_max]
-    else : print("Unknown area : Area should be in ('France_Nord', 'IDF')")
-    img_zoom = img[limite[0]:limite[1],limite[2]:limite[3],:]
+    else :
+        print("Unknown area : Area should be in ('France_Nord', 'IDF')")
+        break
+    img_zoom = img[limite[0]:limite[1],limite[2]:limite[3]]
     return img_zoom
 
 

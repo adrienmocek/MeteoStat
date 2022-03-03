@@ -54,12 +54,12 @@ def open_save_data(url, date_save):
     response = requests.get(url)
 
     img = Image.open(BytesIO(response.content))
-    img.save( f"images/radar{date_save}.png")
+    img.save( f"/mnt/d/data_programmation/images/radar{date_save}.png")
     pass
 
 def open_data(date_save):
     print('Open '+date_save)
-    img = mpimg.imread(f"images/radar{date_save}.png")
+    img = mpimg.imread(f"/mnt/d/data_programmation/images/radar{date_save}.png")
     return img
 
 def save_data(img, date_save):
@@ -67,12 +67,12 @@ def save_data(img, date_save):
     ## Save as image :
     print('save image')
     img = Image.fromarray((img * 255).astype(np.uint8))
-    img.save( f"images_preproc/radar_preproc{date_save}.png")
+    img.save( f"/mnt/d/data_programmation/images_preproc/radar_preproc{date_save}.png")
     pass
 
 if __name__ == '__main__' :
 
-    start = datetime(2018, 10, 2, 12)
-    finish = datetime(2018, 10, 2, 14, 30)
+    start = datetime(2017, 5, 1, 00)
+    finish = datetime(2017, 9, 30, 23, 45)
 
     scrapping_images (start, finish)
