@@ -10,8 +10,6 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 def mse(img_1, img_2):
     return np.mean(tf.keras.metrics.mean_squared_error(img_1, img_2))
 
-def baseline():
-
 
 
 

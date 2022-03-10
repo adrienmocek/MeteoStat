@@ -5,7 +5,6 @@ from PIL import Image, UnidentifiedImageError
 import pandas as pd
 import matplotlib.image as mpimg
 import numpy as np
-import h5py
 
 def iteration_15min(start, finish):
     ## Generateur de (an, mois, jour, heure, minute)
@@ -24,6 +23,7 @@ def scrapping_images (start, finish) :
     entre deux dates donnees sous forme de datetime.datetime
     Sauvegarde les dates pour lesquelles la page n'existe pas.  """
     missing_times = []
+    saved_images = []
     for (an, mois, jour, heure, minute) in iteration_15min(start, finish):
         ## url scrapping :
         url = (f"https://static.infoclimat.net/cartes/compo/{an}/{mois}/{jour}"
@@ -32,6 +32,8 @@ def scrapping_images (start, finish) :
 
         try :
             open_save_data(url, date_save)
+            saved_images.append(date_save)
+
 
         except UnidentifiedImageError :
             print (date_save, ' --> Missing data')
@@ -42,6 +44,7 @@ def scrapping_images (start, finish) :
             {finish.strftime("%m")}{finish.strftime("%d")}'
     pd.DataFrame(missing_times).to_pickle(missing_data_name)
     print(missing_times)
+    return saved_images
 
 
 
@@ -54,20 +57,25 @@ def open_save_data(url, date_save):
     response = requests.get(url)
 
     img = Image.open(BytesIO(response.content))
-    img.save( f"/mnt/d/data_programmation/images/radar{date_save}.png")
+    img.save( f"images/radar{date_save}.png")
     pass
 
 def open_data(date_save):
     print('Open '+date_save)
-    img = mpimg.imread(f"/mnt/d/data_programmation/images/radar{date_save}.png")
+    img = mpimg.imread(f"images/radar{date_save}.png")
     return img
+
+def open_data_preproc(date_save):
+    img = mpimg.imread(f"images/radar{date_save}.png")
+    return img
+
 
 def save_data(img, date_save):
 
     ## Save as image :
     print('save image')
     img = Image.fromarray((img * 255).astype(np.uint8))
-    img.save( f"/mnt/d/data_programmation/images_preproc/radar_preproc{date_save}.png")
+    img.save( f"images_preproc/radar_preproc{date_save}.png")
     pass
 
 if __name__ == '__main__' :
